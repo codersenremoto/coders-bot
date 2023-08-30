@@ -1,0 +1,26 @@
+{
+  "name": "coders-bot",
+  "version": "2.2.0",
+  "description": "A Node.js starter for Serverless Framework with ES6 and TypeScript support",
+  "main": "handler.js",
+  "scripts": {
+    "test": "serverless-bundle test"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "@types/node-fetch": "^2.6.4",
+    "esbuild": "^0.17.19",
+    "serverless": "^3.22.0",
+    "serverless-esbuild": "^1.46.0",
+    "serverless-plugin-log-retention": "^2.0.0"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

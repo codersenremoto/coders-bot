@@ -1,0 +1,70 @@
+service: coders-bot
+frameworkVersion: "3"
+
+# Create an optimized package for our functions 
+package:
+  individually: true
+
+plugins:
+  - serverless-esbuild
+  
+custom:
+  esbuild:
+    minify: true
+    sourcemap: true
+    keepNames: true
+    packager: yarn
+    bundle: true
+    watch:
+      # anymatch-compatible definition (https://github.com/es128/anymatch)
+      pattern: ['./index.ts', 'src/**/*.ts'] # default .
+      ignore: ['.serverless/**/*', '.build'] # default ['.build', 'dist', 'node_modules']
+  logRetentionInDays: 2
+
+params:
+  prod:
+    oauth2_redirect_uri: https://hvwyk8anwf.execute-api.us-east-1.amazonaws.com/dev/oauth/callback
+  dev:
+    oauth2_redirect_uri: https://hvwyk8anwf.execute-api.us-east-1.amazonaws.com/dev/oauth/callback
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    OAUTH2_REDIRECT_URI: ${param:oauth2_redirect_uri}
+    STAGE: ${self:provider.stage}
+  # environment:
+    # From Node 12.x this option is available,
+    # so support-source-maps package is not needed
+    # NODE_OPTIONS: "--enable-source-maps"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameter
+        - ssm:PutParameter
+        - ssm:DeleteParameter
+      Resource: 
+        - 'arn:aws:ssm:${opt:region, self:provider.region}:*:parameter/*'
+    
+functions:
+  oauth2-invitation:
+    handler: src/oauth2.authorize
+    environment: 
+      DISCORD_CLIENT_ID: ${ssm:/coders-bot-dev/discord/oauth2-client-id}
+      DISCORD_CLIENT_SECRET: ${ssm:/coders-bot-dev/discord/oauth2-client-secret}
+    events:
+      - http:
+          path: invitation
+          method: get
+
+  oauth2-callback:
+    handler: src/oauth2.callback
+    environment: 
+      DISCORD_CLIENT_ID: ${ssm:/coders-bot-dev/discord/oauth2-client-id}
+      DISCORD_CLIENT_SECRET: ${ssm:/coders-bot-dev/discord/oauth2-client-secret}
+    events:
+      - http:
+          path: oauth/callback
+          method: get
