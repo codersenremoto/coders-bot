@@ -47,6 +47,10 @@ provider:
         - ssm:DeleteParameter
       Resource: 
         - 'arn:aws:ssm:${opt:region, self:provider.region}:*:parameter/*'
+    - Effect: "Allow"
+      Action:
+        - "execute-api:ManageConnections"
+      Resource: "*"
     
 functions:
   oauth2-invitation:
@@ -68,3 +72,16 @@ functions:
       - http:
           path: oauth/callback
           method: get
+
+  connectionHandler:
+    handler: src/interactive.connectionHandler
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+  messageHandler:
+    handler: src/interactive.messageHandler
+    events:
+      - websocket:
+          route: $default
