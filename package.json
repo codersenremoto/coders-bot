@@ -1,0 +1,22 @@
+{
+  "name": "coders-bot-super",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:worker": "node src/main.js"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  },
+  "author": "@karloscodes",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.4.0"
+  }
+}
