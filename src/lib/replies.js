@@ -11,7 +11,7 @@ export async function composeReply({ message, botUserId }) {
   if (message.mentions.users.has(botUserId)) {
     // Enable chat gpt in public channels only
     if (message.channel.type !== ChannelType.DM) {
-
+      
       if (message.content.length < BOT_MENTION_LENGTH + 10) {
         return "Necesito 10 caracteres o más para poder entenderte mejor, por favor inténtalo de nuevo."
       }
