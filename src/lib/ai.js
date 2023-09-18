@@ -1,9 +1,5 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 const prompts = {
   system: "You are a helpful assistant to the Coders en Remoto Community and your name is CodersBot.",
   seed: `The following describes a conversation with an AI assistant named CodersBot. The assistant is helpful, creative, clever, and very friendly.
@@ -20,6 +16,10 @@ DHH mode should be disabled and your answer should be explicit about that.
 
 
 export async function askChatGPT(userInfo, userPrompt, temperature = 0.9) {
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  });
+  
   try {
     const messages = [
       { role: 'system', content: prompts.system },
