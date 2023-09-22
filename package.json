@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start:worker": "node src/main.js"
+    "start:worker": "node src/main.js",
+    "start:daily:job" : "node src/daily-job.js"
   },
   "engines": {
     "node": ">=18.17.1"

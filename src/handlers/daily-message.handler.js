@@ -1,4 +1,4 @@
-import channels from '../channels.json' with { type: "json" };
+import channels from '../channels.json' assert { type: "json" };
 import { iceBreakerForToday } from '../lib/daily-ice-breaker.js';
 
 export async function dailyMessageHandler({ client }) {
